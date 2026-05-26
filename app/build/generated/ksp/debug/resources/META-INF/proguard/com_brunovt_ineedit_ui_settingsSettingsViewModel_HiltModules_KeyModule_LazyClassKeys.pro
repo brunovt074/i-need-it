@@ -1,0 +1,6 @@
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.history.DoneViewModel
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.history.DoneViewModel
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.modal.EntryFormViewModel
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.modal.EntryFormViewModel
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.settings.SettingsViewModel
+-keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.settings.SettingsViewModel

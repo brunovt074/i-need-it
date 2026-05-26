@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.brunovt.ineedit.domain.usecase.MarkDoneUseCaseTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-05-17T16:24:52" hostname="bruno-saldo" time="0.088">
+  <properties/>
+  <testcase name="should throw when entry does not exist()" classname="com.brunovt.ineedit.domain.usecase.MarkDoneUseCaseTest" time="0.076"/>
+  <testcase name="should keep original fields intact after marking done()" classname="com.brunovt.ineedit.domain.usecase.MarkDoneUseCaseTest" time="0.006"/>
+  <testcase name="completedAt should be null for active entry before marking done()" classname="com.brunovt.ineedit.domain.usecase.MarkDoneUseCaseTest" time="0.001"/>
+  <testcase name="should set completedAt for existing active entry()" classname="com.brunovt.ineedit.domain.usecase.MarkDoneUseCaseTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

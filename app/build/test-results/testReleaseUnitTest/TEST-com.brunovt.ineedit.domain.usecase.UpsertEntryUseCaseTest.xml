@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-05-17T05:52:42" hostname="bruno-saldo" time="0.015">
+  <properties/>
+  <testcase name="should throw when SPECIFIC_DATE selected but no date provided()" classname="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" time="0.006"/>
+  <testcase name="should save entry with non-blank name()" classname="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" time="0.002"/>
+  <testcase name="should throw when specificDate provided but timeKey is not SPECIFIC_DATE()" classname="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" time="0.003"/>
+  <testcase name="should save entry with SPECIFIC_DATE when specificDate is also provided()" classname="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" time="0.002"/>
+  <testcase name="should throw when name is blank()" classname="com.brunovt.ineedit.domain.usecase.UpsertEntryUseCaseTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
