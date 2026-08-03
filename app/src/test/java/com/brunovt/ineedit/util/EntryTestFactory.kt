@@ -2,7 +2,7 @@ package com.brunovt.ineedit.util
 
 import com.brunovt.ineedit.domain.model.Column
 import com.brunovt.ineedit.domain.model.Entry
-import com.brunovt.ineedit.domain.model.TagKey
+import com.brunovt.ineedit.domain.model.Tag
 import com.brunovt.ineedit.domain.model.TimeKey
 import kotlinx.datetime.Clock
 
@@ -13,7 +13,7 @@ object EntryTestFactory {
         column: Column = Column.NEED,
         name: String = "Test Entry",
         timeKey: TimeKey? = TimeKey.THIS_WEEK,
-        tags: List<TagKey> = emptyList(),
+        tags: List<Tag> = emptyList(),
     ): Entry {
         val now = Clock.System.now()
         return Entry(
@@ -25,6 +25,8 @@ object EntryTestFactory {
             cost = null,
             place = null,
             tags = tags,
+            status = null,
+            actions = emptyList(),
             completedAt = null,
             createdAt = now,
             updatedAt = now,

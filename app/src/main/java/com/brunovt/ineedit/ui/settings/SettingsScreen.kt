@@ -42,6 +42,7 @@ import com.brunovt.ineedit.data.prefs.ThemeMode
 import com.brunovt.ineedit.domain.model.Status
 import com.brunovt.ineedit.domain.model.Tag
 import com.brunovt.ineedit.ui.components.AppBottomNav
+import com.brunovt.ineedit.ui.components.BrandMark
 import com.brunovt.ineedit.ui.components.ThemeCardPicker
 import com.brunovt.ineedit.ui.theme.LocalAppTokens
 
@@ -199,6 +200,18 @@ fun SettingsScreen(
                 color = tokens.inkDefault,
             )
             Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                BrandMark()
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = tokens.inkDefault,
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = stringResource(R.string.settings_version),
                 style = MaterialTheme.typography.bodyMedium,

@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -27,9 +26,12 @@ open class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        runBlocking {
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(LocalePrefs.DEFAULT_LOCALE))
+        appScope.launch {
             val tag = localePrefs.locale.first()
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+            if (tag != LocalePrefs.DEFAULT_LOCALE) {
+                AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+            }
         }
         appScope.launch { defaultDataSeeder.seedIfNeeded() }
         onAppCreate()

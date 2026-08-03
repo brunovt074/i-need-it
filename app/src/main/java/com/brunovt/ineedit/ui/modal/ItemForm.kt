@@ -260,19 +260,33 @@ fun ItemForm(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        var cancelTapped by remember { mutableStateOf(false) }
+        var saveTapped by remember { mutableStateOf(false) }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             OutlinedButton(
-                onClick = onCancel,
+                onClick = {
+                    if (!cancelTapped) {
+                        cancelTapped = true
+                        onCancel()
+                    }
+                },
+                enabled = !cancelTapped && !state.isSaving,
                 modifier = Modifier.weight(1f),
             ) {
                 Text(text = stringResource(R.string.form_cancel))
             }
             Button(
-                onClick = onSave,
-                enabled = !state.isSaving,
+                onClick = {
+                    if (!saveTapped) {
+                        saveTapped = true
+                        onSave()
+                    }
+                },
+                enabled = !saveTapped && !state.isSaving,
                 modifier = Modifier.weight(1f),
             ) {
                 Text(text = stringResource(R.string.form_save))

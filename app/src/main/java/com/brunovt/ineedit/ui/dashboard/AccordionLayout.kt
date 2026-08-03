@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
@@ -193,43 +194,44 @@ private fun AccordionContent(
     onMoveToColumn: (String, Column) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
+    LazyColumn(
+        modifier = modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
     ) {
         if (items.isEmpty()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 24.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = emptyText,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = accentColor.copy(alpha = 0.6f),
-                )
-            }
-        } else {
-            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)) {
-                items.forEachIndexed { index, entry ->
-                    ItemCard(
-                        entry = entry,
-                        borderColor = borderColor,
-                        onClick = { onItemTap(entry) },
-                        onMoveToColumn = onMoveToColumn,
-                        initialExpanded = index < FULL_ITEMS,
-                        modifier = Modifier.padding(vertical = 4.dp),
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 24.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = emptyText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = accentColor.copy(alpha = 0.6f),
                     )
                 }
             }
+        } else {
+            itemsIndexed(items, key = { _, entry -> entry.id }) { index, entry ->
+                ItemCard(
+                    entry = entry,
+                    borderColor = borderColor,
+                    onClick = { onItemTap(entry) },
+                    onMoveToColumn = onMoveToColumn,
+                    initialExpanded = index < FULL_ITEMS,
+                    modifier = Modifier.padding(vertical = 4.dp),
+                )
+            }
         }
-        AddRow(
-            label = addCta,
-            accentColor = accentColor,
-            onClick = onAddTap,
-        )
-        Spacer(modifier = Modifier.height(8.dp))
+        item {
+            AddRow(
+                label = addCta,
+                accentColor = accentColor,
+                onClick = onAddTap,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
     }
 }

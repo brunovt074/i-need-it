@@ -1,2 +1,0 @@
--keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.history.DoneViewModel
--keep,allowobfuscation,allowshrinking class com.brunovt.ineedit.ui.history.DoneViewModel

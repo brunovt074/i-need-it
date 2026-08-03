@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,28 +27,23 @@ class DashboardViewModel @Inject constructor(
     private val layoutPrefs: LayoutPrefs,
 ) : ViewModel() {
 
-    private val _needItems = MutableStateFlow<List<Entry>>(emptyList())
-    val needItems: StateFlow<List<Entry>> = _needItems.asStateFlow()
+    val needItems: StateFlow<List<Entry>> = observeBoard(Column.NEED)
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    private val _wantItems = MutableStateFlow<List<Entry>>(emptyList())
-    val wantItems: StateFlow<List<Entry>> = _wantItems.asStateFlow()
+    val wantItems: StateFlow<List<Entry>> = observeBoard(Column.WANT)
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
-    private val _wishItems = MutableStateFlow<List<Entry>>(emptyList())
-    val wishItems: StateFlow<List<Entry>> = _wishItems.asStateFlow()
+    val wishItems: StateFlow<List<Entry>> = observeBoard(Column.WISH)
+        .distinctUntilChanged()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
 
     val layoutStyle: StateFlow<LayoutStyle> = layoutPrefs.layout
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), LayoutStyle.ACCORDION)
 
     private val _activeColumn = MutableStateFlow(Column.NEED)
     val activeColumn: StateFlow<Column> = _activeColumn.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            launch { observeBoard(Column.NEED).collect { _needItems.value = it } }
-            launch { observeBoard(Column.WANT).collect { _wantItems.value = it } }
-            launch { observeBoard(Column.WISH).collect { _wishItems.value = it } }
-        }
-    }
 
     fun setActiveColumn(column: Column) {
         _activeColumn.value = column

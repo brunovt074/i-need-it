@@ -4,8 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brunovt.ineedit.domain.model.Action
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
 import com.brunovt.ineedit.domain.model.Column
 import com.brunovt.ineedit.domain.model.Entry
 import com.brunovt.ineedit.domain.model.Money
@@ -19,6 +17,12 @@ import com.brunovt.ineedit.domain.usecase.StatusRepository
 import com.brunovt.ineedit.domain.usecase.TagRepository
 import com.brunovt.ineedit.domain.usecase.UpsertEntryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.PersistentList
+import kotlinx.collections.immutable.PersistentSet
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.persistentSetOf
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -38,9 +42,9 @@ data class EntryFormState(
     val costAmount: String = "",
     val costCurrency: String = "ARS",
     val place: String = "",
-    val selectedTags: Set<Tag> = emptySet(),
+    val selectedTags: PersistentSet<Tag> = persistentSetOf(),
     val status: Status? = null,
-    val actions: List<Action> = emptyList(),
+    val actions: PersistentList<Action> = persistentListOf(),
     val newActionText: String = "",
     val nameError: Boolean = false,
     val isSaving: Boolean = false,
@@ -89,9 +93,9 @@ class EntryFormViewModel @Inject constructor(
                 costAmount = entry.cost?.amountMinor?.toString() ?: "",
                 costCurrency = entry.cost?.currency ?: "ARS",
                 place = entry.place ?: "",
-                selectedTags = entry.tags.toSet(),
+                selectedTags = entry.tags.toPersistentSet(),
                 status = entry.status,
-                actions = entry.actions,
+                actions = entry.actions.toPersistentList(),
                 isExisting = true,
                 column = entry.column,
             )
@@ -130,7 +134,7 @@ class EntryFormViewModel @Inject constructor(
 
     fun onTagToggle(tag: Tag) {
         _state.update { s ->
-            val tags = if (tag in s.selectedTags) s.selectedTags - tag else s.selectedTags + tag
+            val tags = if (tag in s.selectedTags) s.selectedTags.remove(tag) else s.selectedTags.add(tag)
             s.copy(selectedTags = tags)
         }
     }
@@ -149,24 +153,24 @@ class EntryFormViewModel @Inject constructor(
         val text = _state.value.newActionText.trim()
         if (text.isBlank()) return
         val action = Action(id = UUID.randomUUID().toString(), text = text)
-        _state.update { it.copy(actions = it.actions + action, newActionText = "") }
+        _state.update { it.copy(actions = it.actions.add(action), newActionText = "") }
     }
 
     fun toggleActionChecked(actionId: String) {
         _state.update { s ->
             s.copy(actions = s.actions.map { a ->
                 if (a.id == actionId) a.copy(checked = !a.checked) else a
-            })
+            }.toPersistentList())
         }
     }
 
     fun removeAction(actionId: String) {
         _state.update { s ->
-            s.copy(actions = s.actions.filter { it.id != actionId })
+            s.copy(actions = s.actions.removeAll { it.id == actionId })
         }
     }
 
-    fun save(onDismiss: () -> Unit) {
+    fun save() {
         val s = _state.value
         if (s.name.isBlank()) {
             _state.update { it.copy(nameError = true) }
@@ -189,11 +193,11 @@ class EntryFormViewModel @Inject constructor(
             updatedAt = now,
         )
         viewModelScope.launch {
-            withContext(NonCancellable) {
-                runCatching { upsertEntry(entry) }
-            }
+            _state.update { it.copy(isSaving = true) }
+            runCatching { upsertEntry(entry) }
+                .onSuccess { _state.update { it.copy(isSaving = false, savedSuccessfully = true) } }
+                .onFailure { _state.update { it.copy(isSaving = false) } }
         }
-        onDismiss()
     }
 
     fun delete() {

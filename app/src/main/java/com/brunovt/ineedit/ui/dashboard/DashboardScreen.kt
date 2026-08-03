@@ -91,14 +91,14 @@ fun DashboardScreen(
                 }
             },
         ) { padding ->
-            val handleItemTap: (Entry) -> Unit = { entry ->
-                onOpenEntry(entry.id, entry.column)
+            val handleItemTap: (Entry) -> Unit = remember(onOpenEntry) {
+                { entry -> onOpenEntry(entry.id, entry.column) }
             }
-            val handleAddTap: (Column) -> Unit = { column ->
-                onOpenEntry(null, column)
+            val handleAddTap: (Column) -> Unit = remember(onOpenEntry) {
+                { column -> onOpenEntry(null, column) }
             }
-            val handleMove: (String, Column) -> Unit = { id, col ->
-                viewModel.moveEntry(id, col)
+            val handleMove: (String, Column) -> Unit = remember(viewModel) {
+                { id, col -> viewModel.moveEntry(id, col) }
             }
 
             var rootPosition by remember { mutableStateOf(Offset.Zero) }

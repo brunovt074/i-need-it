@@ -1,5 +1,7 @@
 package com.brunovt.ineedit.ui
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
@@ -33,6 +35,10 @@ fun AppNavHost(navController: NavHostController = rememberNavController()) {
         }
         composable(
             route = "entry_form?entryId={entryId}&column={column}",
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None },
             arguments = listOf(
                 navArgument("entryId") {
                     type = NavType.StringType

@@ -74,7 +74,7 @@ fun DoneScreen(
                     .padding(padding)
                     .padding(horizontal = 16.dp),
             ) {
-                items(items) { entry ->
+                items(items, key = { it.id }) { entry ->
                     DoneItemCard(
                         entry = entry,
                         onLongPress = { viewModel.restore(entry) },

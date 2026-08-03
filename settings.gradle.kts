@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "i-need-it"
 include(":app")
+include(":benchmark")

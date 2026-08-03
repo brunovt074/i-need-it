@@ -6,6 +6,7 @@ import com.brunovt.ineedit.domain.usecase.EntryRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.yield
 
 class FakeEntryRepository : EntryRepository {
 
@@ -32,6 +33,7 @@ class FakeEntryRepository : EntryRepository {
     override suspend fun byId(id: String): Entry? = store.value[id]
 
     override suspend fun upsert(entry: Entry) {
+        yield()
         store.value = store.value + (entry.id to entry)
     }
 

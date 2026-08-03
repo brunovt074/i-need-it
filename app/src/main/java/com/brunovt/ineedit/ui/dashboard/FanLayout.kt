@@ -74,7 +74,7 @@ fun FanLayout(
     val columns = listOf(Column.NEED, Column.WANT, Column.WISH)
     val borderColors = listOf(tokens.needBorder, tokens.wantBorder, tokens.wishBorder)
 
-    LaunchedEffect(pagerState) {
+    LaunchedEffect(Unit) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             selectedTab = page
             onActiveColumnChange(columns[page])

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Themed-icon layer (Android 13+ monochrome). Same A4 geometry as
+  ic_launcher_foreground, single silhouette — the design already
+  differentiates need/want/wish by length and dot placement, not color,
+  so it survives the monochrome recolor untouched.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M29.85,29.845 A5.844,5.844 0 0 1 41.538,29.845 A5.844,5.844 0 0 1 29.85,29.845 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M29.85,45.039 A5.844,5.844 0 0 1 41.538,45.039 L41.538,78.156 A5.844,5.844 0 0 1 29.85,78.156 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M48.16,49.909 A5.844,5.844 0 0 1 59.848,49.909 L59.848,78.156 A5.844,5.844 0 0 1 48.16,78.156 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M66.47,72.701 A5.844,5.844 0 0 1 78.158,72.701 L78.158,78.156 A5.844,5.844 0 0 1 66.47,78.156 Z" />
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M66.471,57.896 A5.844,5.844 0 0 1 78.159,57.896 A5.844,5.844 0 0 1 66.471,57.896 Z" />
+
+</vector>

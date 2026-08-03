@@ -1,0 +1,22 @@
+# Build outputs
+build/
+app/build/
+benchmark/build/
+.kotlin/
+dist/
+.tools/
+
+# Gradle
+.gradle/
+
+# Local machine config — never portable across dev environments
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# Signing — never commit release signing material
+*.jks
+*.keystore
+keystore.properties

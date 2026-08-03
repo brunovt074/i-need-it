@@ -23,6 +23,7 @@ class LocalePrefs(private val context: Context) {
     }
 
     companion object {
+        const val DEFAULT_LOCALE = "en"
         private val LOCALE_KEY = stringPreferencesKey("locale")
     }
 }
