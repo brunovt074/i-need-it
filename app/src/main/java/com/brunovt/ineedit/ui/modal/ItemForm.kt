@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -262,6 +263,12 @@ fun ItemForm(
 
         var cancelTapped by remember { mutableStateOf(false) }
         var saveTapped by remember { mutableStateOf(false) }
+
+        LaunchedEffect(state.isSaving, state.nameError) {
+            if (!state.isSaving && !state.savedSuccessfully) {
+                saveTapped = false
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
